@@ -30,27 +30,15 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        if (sentinel.next == null ) {
-            sentinel.prev = new Node<T>(item, sentinel, sentinel.next);
-            sentinel.next = sentinel.prev;
-            size = 1;
-        } else {
-            sentinel.next.prev = new Node<T>(item, sentinel, sentinel.next);
-            sentinel.next = sentinel.next.prev;
-            size += 1;
-        }
+        sentinel.next.prev = new Node<T>(item, sentinel, sentinel.next);
+        sentinel.next = sentinel.next.prev;
+        size += 1;
     }
 
     public void addLast(T item) {
-        if (sentinel.next == null) {
-            sentinel.prev = new Node<T>(item, sentinel, sentinel.next);
-            sentinel.next = sentinel.prev;
-            size = 1;
-        } else {
-            sentinel.prev.next = new Node<T>(item, sentinel.prev, sentinel);
-            sentinel.prev = sentinel.prev.next;
-            size += 1;
-        }
+        sentinel.prev.next = new Node<T>(item, sentinel.prev, sentinel);
+        sentinel.prev = sentinel.prev.next;
+        size += 1;
     }
 
     public boolean isEmpty() {
@@ -75,7 +63,7 @@ public class LinkedListDeque<T> {
 
     public T removeFirst() {
         Node removed = sentinel.next;
-        if (size > 0) {
+        if (isEmpty() != true) {
             this.sentinel.next = sentinel.next.next;
             this.sentinel.next.prev = sentinel;
             size -= 1;
@@ -85,7 +73,7 @@ public class LinkedListDeque<T> {
 
     public T removeLast() {
         Node removed = sentinel.prev;
-        if (size > 0) {
+        if (isEmpty() != true) {
             this.sentinel.prev = sentinel.prev.prev;
             this.sentinel.prev.next = sentinel;
             size -= 1;
