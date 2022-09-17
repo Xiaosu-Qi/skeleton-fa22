@@ -16,7 +16,9 @@ public class LinkedListDeque<T> {
     private Node sentinel;
 
     public LinkedListDeque() {
-        sentinel = new Node<T>(null, sentinel, sentinel);
+        sentinel = new Node<T>(null, null, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
         size = 0;
     }
 
@@ -28,15 +30,27 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        sentinel.next.prev = new Node<T>(item, sentinel, sentinel.next);
-        sentinel.next = sentinel.next.prev;
-        size += 1;
+        if (sentinel.next == null ) {
+            sentinel.prev = new Node<T>(item, sentinel, sentinel.next);
+            sentinel.next = sentinel.prev;
+            size = 1;
+        } else {
+            sentinel.next.prev = new Node<T>(item, sentinel, sentinel.next);
+            sentinel.next = sentinel.next.prev;
+            size += 1;
+        }
     }
 
     public void addLast(T item) {
-        sentinel.prev.next = new Node<T>(item, sentinel.prev, sentinel);
-        sentinel.prev = sentinel.prev.next;
-        size += 1;
+        if (sentinel.next == null) {
+            sentinel.prev = new Node<T>(item, sentinel, sentinel.next);
+            sentinel.next = sentinel.prev;
+            size = 1;
+        } else {
+            sentinel.prev.next = new Node<T>(item, sentinel.prev, sentinel);
+            sentinel.prev = sentinel.prev.next;
+            size += 1;
+        }
     }
 
     public boolean isEmpty() {
@@ -61,16 +75,23 @@ public class LinkedListDeque<T> {
 
     public T removeFirst() {
         Node removed = sentinel.next;
-        this.sentinel.next = sentinel.next.next;
-        this.sentinel.next.prev = sentinel;
+        if (size > 0) {
+            this.sentinel.next = sentinel.next.next;
+            this.sentinel.next.prev = sentinel;
+            size -= 1;
+        }
         return (T) removed.item;
     }
 
     public T removeLast() {
         Node removed = sentinel.prev;
-        this.sentinel.prev = sentinel.prev.prev;
-        this.sentinel.prev.next = sentinel;
+        if (size > 0) {
+            this.sentinel.prev = sentinel.prev.prev;
+            this.sentinel.prev.next = sentinel;
+            size -= 1;
+        }
         return (T) removed.item;
+
     }
 
     public T get(int index) {
@@ -106,46 +127,50 @@ public class LinkedListDeque<T> {
 
 
     public static void main(String[] args){
-        LinkedListDeque t = new LinkedListDeque(89);
-
-        System.out.println("Manual Tests");
-        System.out.println("addFirst, addLast, get Test");
-        t.addFirst(88);
-        t.addFirst(87);
-        t.addLast(90);
-        System.out.println(t.get(0));
-        System.out.println(t.getRecursive(0));
-        System.out.println(t.get(1));
-        System.out.println(t.getRecursive(1));
-        System.out.println(t.get(2));
-        System.out.println(t.getRecursive(2));
-        System.out.println(t.get(3));
-        System.out.println(t.getRecursive(3));
-
-        System.out.println("Sentinel check");
-        t.checkSentinel();
-
-        System.out.println("isEmpty check");
-        System.out.println(t.isEmpty());
-
-        System.out.println("size check");
-        System.out.println(t.size());
-
-        System.out.println("printDeque check");
-        t.printDeque();
-
-        System.out.println("removeFirst check");
-        System.out.print("remove first item: ");
-        System.out.println(t.removeFirst());
-        System.out.print("the rest items: ");
-        t.printDeque();
+        LinkedListDeque m = new LinkedListDeque();
+        m.addFirst("Hi");
 
 
-        System.out.println("removeLast check");
-        System.out.print("remove last item: ");
-        System.out.println(t.removeLast());
-        System.out.print("the rest items: ");
-        t.printDeque();
+//        LinkedListDeque t = new LinkedListDeque(89);
+//
+//        System.out.println("Manual Tests");
+//        System.out.println("addFirst, addLast, get Test");
+//        t.addFirst(88);
+//        t.addFirst(87);
+//        t.addLast(90);
+//        System.out.println(t.get(0));
+//        System.out.println(t.getRecursive(0));
+//        System.out.println(t.get(1));
+//        System.out.println(t.getRecursive(1));
+//        System.out.println(t.get(2));
+//        System.out.println(t.getRecursive(2));
+//        System.out.println(t.get(3));
+//        System.out.println(t.getRecursive(3));
+//
+//        System.out.println("Sentinel check");
+//        t.checkSentinel();
+//
+//        System.out.println("isEmpty check");
+//        System.out.println(t.isEmpty());
+//
+//        System.out.println("size check");
+//        System.out.println(t.size());
+//
+//        System.out.println("printDeque check");
+//        t.printDeque();
+//
+//        System.out.println("removeFirst check");
+//        System.out.print("remove first item: ");
+//        System.out.println(t.removeFirst());
+//        System.out.print("the rest items: ");
+//        t.printDeque();
+//
+//
+//        System.out.println("removeLast check");
+//        System.out.print("remove last item: ");
+//        System.out.println(t.removeLast());
+//        System.out.print("the rest items: ");
+//        t.printDeque();
 
 
     }
