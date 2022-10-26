@@ -64,4 +64,83 @@ public class IntList {
         System.arraycopy(argList, 1, restList, 0, argList.length - 1);
         return new IntList(argList[0], IntList.of(restList));
     }
+
+    public static void dSquareList(IntList L) {
+        IntList p = L;
+        while (p != null) {
+            p.first = p.first * p.first;
+            p = p.rest;
+        }
+    }
+
+    public static IntList squareListIterative(IntList L) {
+        if (L == null) {
+            return null;
+        }
+        IntList t = new IntList(L.first * L.first, null);;
+        IntList ptr = t;
+        L = L.rest;
+        while (L != null) {
+            ptr.rest = new IntList(L.first * L.first, null);
+            L = L.rest;
+            ptr = ptr.rest;
+        }
+        return t;
+    }
+
+    public static IntList squareListRecursive(IntList L) {
+        if (L == null) {
+            return null;
+        }
+
+        IntList R = new IntList(L.first* L.first, null);;
+        IntList ptr = R;
+        helper(L.rest, ptr);
+        return R;
+    }
+
+    private static void helper(IntList L, IntList ptr) {
+        if (L == null) {
+            return;
+        } else {
+            ptr.rest = new IntList(L.first* L.first, null);
+            helper(L.rest, ptr.rest);
+        }
+    }
+
+    public static void dcatenate(IntList A, IntList B) {
+        IntList ptr_a = A;
+        while (ptr_a.rest != null) {
+            ptr_a = ptr_a.rest;
+        }
+        ptr_a.rest = B;
+    }
+
+    public static IntList catenate(IntList A, IntList B) {
+        IntList res = deepcopy(A);
+        IntList ptr_res = res;
+
+        while (ptr_res.rest != null) {
+            ptr_res = ptr_res.rest;
+        }
+        ptr_res.rest = deepcopy(B);
+        return res;
+    }
+
+    public static IntList deepcopy(IntList A) {
+        if (A == null) {
+            return null;
+        }
+
+        IntList res = new IntList(A.first, null);
+        IntList ptr_a = A.rest;
+        IntList ptr_res = res;
+
+        while (ptr_a != null) {
+            ptr_res.rest = new IntList(ptr_a.first, null);
+            ptr_a = ptr_a.rest;
+            ptr_res = ptr_res.rest;
+        }
+        return res;
+    }
 }
